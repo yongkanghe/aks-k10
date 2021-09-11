@@ -85,8 +85,9 @@ kubectl create namespace mysql
 helm install mysql bitnami/mysql --namespace=mysql --set primary.persistence.size=1Gi,secondary.persistence.size=1Gi	
 
 echo '-------Create a Azure Storage account'
-az storage account create -n $MY_PREFIX$AZURE_STORAGE_ACCOUNT_ID -g $MY_PREFIX-$MY_GROUP -l $MY_LOCATION --sku Standard_LRS
-export AZURE_STORAGE_KEY=$(az storage account keys list -g $MY_PREFIX-$MY_GROUP -n $MY_PREFIX$AZURE_STORAGE_ACCOUNT_ID -o table | grep key1 | awk '{print $3}')
+AKS_RG=$(az group list -o table | grep rg4yong1 | grep MC | awk '{print $1}')
+az storage account create -n $MY_PREFIX$AZURE_STORAGE_ACCOUNT_ID -g $AKS_RG -l $MY_LOCATION --sku Standard_LRS
+export AZURE_STORAGE_KEY=$(az storage account keys list -g $AKS_RG -n $MY_PREFIX$AZURE_STORAGE_ACCOUNT_ID -o table | grep key1 | awk '{print $3}')
 
 echo '-------Create a Azure Blob Storage profile secret'
 kubectl create secret generic k10-azure-secret \
