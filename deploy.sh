@@ -61,28 +61,30 @@ helm install k10 kasten/k10 --namespace=kasten-io \
   --set auth.tokenAuth.enabled=true \
   --set externalGateway.create=true
 
-echo '-------Extract the token for k10-k10 admin'
-sa_secret=$(kubectl get serviceaccount k10-k10 -o jsonpath="{.secrets[0].name}" --namespace kasten-io)
-kubectl get secret $sa_secret --namespace kasten-io -ojsonpath="{.data.token}{'\n'}" | base64 --decode > aks-token
-sed -i -e '$a\' aks-token
-
 echo '-------Set the default ns to k10'
 kubectl config set-context --current --namespace kasten-io
 
 echo '-------Waiting for K10 services are up running in about 2 mins'
 kubectl wait --for=condition=ready --timeout=300s -n kasten-io pod -l component=catalog
 
-echo '-------Output the IP and token'
-k10ui=http://$(kubectl get svc gateway-ext | awk '{print $4}'|grep -v EXTERNAL)/k10/#
-echo -e "\n$k10ui" >> aks-token
+echo '-------Output the Cluster ID, Web UI IP and token'
 clusterid=$(kubectl get namespace default -ojsonpath="{.metadata.uid}{'\n'}")
-echo $clusterid >> aks-token
+echo "" | awk '{print $1}' > aks-token
+echo My Cluster ID is $clusterid >> aks-token
+k10ui=http://$(kubectl get svc gateway-ext | awk '{print $4}'|grep -v EXTERNAL)/k10/#
+echo -e "\nLogin to K10 Web UI click here -->> $k10ui" >> aks-token
+echo "" | awk '{print $1}' >> aks-token
+sa_secret=$(kubectl get serviceaccount k10-k10 -o jsonpath="{.secrets[0].name}" --namespace kasten-io)
+echo "Please enter below token to login" >> aks-token
+echo "" | awk '{print $1}' >> aks-token
+kubectl get secret $sa_secret --namespace kasten-io -ojsonpath="{.data.token}{'\n'}" | base64 --decode | awk '{print $1}' >> gke-token
+echo "" | awk '{print $1}' >> aks-token
 
 echo '-------Deploy a MySQL database'
 kubectl create namespace mysql
 helm install mysql bitnami/mysql --namespace=mysql --set primary.persistence.size=1Gi,secondary.persistence.size=1Gi	
 
-echo '-------Create a Storage account'
+echo '-------Create a Azure Storage account'
 az storage account create -n $AZURE_STORAGE_ACCOUNT_ID -g $MY_GROUP -l $MY_LOCATION --sku Standard_LRS
 export AZURE_STORAGE_KEY=$(az storage account keys list -g $MY_GROUP -n $AZURE_STORAGE_ACCOUNT_ID -o table | grep key1 | awk '{print $3}')
 
@@ -184,4 +186,7 @@ cat aks-token
 endtime=$(date +%s)
 duration=$(( $endtime - $starttime ))
 echo "-------Total time is $(($duration / 60)) minutes $(($duration % 60)) seconds."
+echo "" | awk '{print $1}'
+echo "-------Created by Yongkang"
+echo "-------Email me if any suggestions or issues he@yongkang.cloud"
 
