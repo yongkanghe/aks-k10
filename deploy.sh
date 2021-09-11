@@ -113,7 +113,7 @@ spec:
         namespace: kasten-io
     type: ObjectStore
     objectStore:
-      name: MY_PREFIX-$MY_CONTAINER
+      name: $MY_PREFIX-$MY_CONTAINER
       objectStoreType: AZ
       region: $MY_REGION
 EOF
