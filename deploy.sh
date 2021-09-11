@@ -1,15 +1,15 @@
-echo '-------Creating a AKS Cluster (typically in less than 10 mins)'
+echo '-------Creating a Resource Group and AKS Cluster (typically in less than 10 mins)'
 starttime=$(date +%s)
 . setenv.sh
 MY_PREFIX=$(echo $(whoami) | sed -e 's/\_//g' | sed -e 's/\.//g' | awk '{print tolower($0)}')
-az group create --name $MY_PREFIX-$MY_GROUP --location centralindia
-
+az group create --name $MY_PREFIX-$MY_GROUP --location $MY_LOCATION
+AKS_K8S_VERSION=$(az aks get-versions --location $MY_LOCATION --output table | awk '{print $1}' | grep 1.20 | head -1)
 az aks create \
   --resource-group $MY_PREFIX-$MY_GROUP \
   --name $MY_PREFIX-$MY_CLUSTER-$(date +%s) \
   --location $MY_LOCATION \
   --generate-ssh-keys \
-  --kubernetes-version 1.20.7 \
+  --kubernetes-version $AKS_K8S_VERSION \
   --node-count 1 \
   --node-vm-size $MY_VMSIZE \
   --enable-cluster-autoscaler \
@@ -17,7 +17,7 @@ az aks create \
   --max-count 3 \
   --network-plugin azure
 
-#Exporting the Azure Tenant, Client, Secret
+echo '-------Exporting the Azure Tenant, Client, Secret'
 AZURE_SUBSCRIPTION_ID=$(az account list --query "[?isDefault][id]" --all -o tsv)
 MYID=$(az ad sp list --show-mine --query [].servicePrincipalNames -o table | grep https | awk '{print $2}')
 AZURE_TENANT_ID=$(az ad sp show --id $MYID --query appOwnerTenantId -o tsv)
