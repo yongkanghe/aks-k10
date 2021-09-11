@@ -6,8 +6,7 @@ az group delete -g $MY_GROUP --yes
 kubectl config delete-context $(kubectl config get-contexts | grep $MY_CLUSTER | awk '{print $2}')
 
 echo '-------Deleting objects from the bucket'
-myproject=$(gcloud config get-value core/project)
-gsutil -m rm -r gs://$myproject-$MY_BUCKET/k10
+az storage account delete -n MY_PREFIX-$AZURE_STORAGE_ACCOUNT_ID -g $MY_GROUP
 
 endtime=$(date +%s)
 duration=$(( $endtime - $starttime ))
