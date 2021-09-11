@@ -1,7 +1,7 @@
 starttime=$(date +%s)
 . setenv.sh
 echo '-------Deleting an AKS Cluster (typically in less than 10 mins)'
-
+MY_PREFIX=$(echo $(whoami) | sed -e 's/\_//g' | sed -e 's/\.//g' | awk '{print tolower($0)}')
 az group delete -g $MY_PREFIX-$MY_GROUP --yes
 kubectl config delete-context $(kubectl config get-contexts | grep $MY_CLUSTER | awk '{print $2}')
 
