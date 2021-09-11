@@ -2,10 +2,10 @@ echo '-------Creating a AKS Cluster (typically in less than 10 mins)'
 starttime=$(date +%s)
 . setenv.sh
 MY_PREFIX=$(echo $(whoami) | sed -e 's/\_//g' | sed -e 's/\.//g' | awk '{print tolower($0)}')
-az group create --name $MY_GROUP --location centralindia
+az group create --name $MY_PREFIX-$MY_GROUP --location centralindia
 
 az aks create \
-  --resource-group $MY_GROUP \
+  --resource-group $MY_PREFIX-$MY_GROUP \
   --name $MY_PREFIX-$MY_CLUSTER-$(date +%s) \
   --location $MY_LOCATION \
   --generate-ssh-keys \
@@ -23,11 +23,11 @@ MYID=$(az ad sp list --show-mine --query [].servicePrincipalNames -o table | gre
 AZURE_TENANT_ID=$(az ad sp show --id $MYID --query appOwnerTenantId -o tsv)
 AZURE_CLIENT_ID=$(az ad sp show --id $MYID --query appId -o tsv)
 AKS_CLUSTER_NAME=$(az aks list -o table | grep $MY_CLUSTER | awk '{print $1}')
-SP_ID=$(az aks show --resource-group $MY_GROUP --name $AKS_CLUSTER_NAME \
+SP_ID=$(az aks show --resource-group $MY_PREFIX-$MY_GROUP --name $AKS_CLUSTER_NAME \
     --query servicePrincipalProfile.clientId -o tsv)
 AZURE_CLIENT_SECRET=$(az ad sp credential reset --name $SP_ID --query password -o tsv)
 
-az aks get-credentials -g $MY_GROUP -n $(az aks list -o table | grep $MY_PREFIX-$MY_CLUSTER | awk '{print $1}')
+az aks get-credentials -g $MY_PREFIX-$MY_GROUP -n $(az aks list -o table | grep $MY_PREFIX-$MY_CLUSTER | awk '{print $1}')
 
 echo '-------Installing CSI Driver and enable snapshot support'
 curl -skSL https://raw.githubusercontent.com/kubernetes-sigs/azuredisk-csi-driver/master/deploy/install-driver.sh | bash -s master snapshot --
@@ -85,8 +85,8 @@ kubectl create namespace mysql
 helm install mysql bitnami/mysql --namespace=mysql --set primary.persistence.size=1Gi,secondary.persistence.size=1Gi	
 
 echo '-------Create a Azure Storage account'
-az storage account create -n $MY_PREFIX-$AZURE_STORAGE_ACCOUNT_ID -g $MY_GROUP -l $MY_LOCATION --sku Standard_LRS
-export AZURE_STORAGE_KEY=$(az storage account keys list -g $MY_GROUP -n $MY_PREFIX-$AZURE_STORAGE_ACCOUNT_ID -o table | grep key1 | awk '{print $3}')
+az storage account create -n $MY_PREFIX-$AZURE_STORAGE_ACCOUNT_ID -g $MY_PREFIX-$MY_GROUP -l $MY_LOCATION --sku Standard_LRS
+export AZURE_STORAGE_KEY=$(az storage account keys list -g $MY_PREFIX-$MY_GROUP -n $MY_PREFIX-$AZURE_STORAGE_ACCOUNT_ID -o table | grep key1 | awk '{print $3}')
 
 echo '-------Create a Azure Blob Storage profile secret'
 kubectl create secret generic k10-azure-secret \
