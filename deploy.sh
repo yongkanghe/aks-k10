@@ -60,6 +60,7 @@ echo '-------Set the default ns to k10'
 kubectl config set-context --current --namespace kasten-io
 
 echo '-------Waiting for K10 services are up running in about 3 mins more or less'
+sleep 5
 kubectl wait --for=condition=ready --timeout=300s -n kasten-io pod -l component=catalog
 
 echo '-------Output the Cluster ID, Web UI IP and token'
@@ -77,6 +78,7 @@ echo "" | awk '{print $1}' >> aks-token
 
 echo '-------Deploy a MySQL database'
 kubectl create namespace mysql
+helm repo add bitnami https://charts.bitnami.com/bitnami
 helm install mysql bitnami/mysql --namespace=mysql --set primary.persistence.size=1Gi,secondary.persistence.size=1Gi	
 
 echo '-------Create a Azure Storage account'
