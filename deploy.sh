@@ -65,9 +65,8 @@ helm repo add bitnami https://charts.bitnami.com/bitnami
 helm install mysql bitnami/mysql --namespace=mysql --set primary.persistence.size=1Gi,secondary.persistence.size=1Gi	
 
 echo '-------Create a Azure Storage account'
-AKS_RG=$(az group list -o table | grep rg4yong1 | grep MC | awk '{print $1}')
-az storage account create -n $MY_PREFIX$AZURE_STORAGE_ACCOUNT_ID -g $AKS_RG -l $MY_LOCATION --sku Standard_LRS
-export AZURE_STORAGE_KEY=$(az storage account keys list -g $AKS_RG -n $MY_PREFIX$AZURE_STORAGE_ACCOUNT_ID -o table | grep key1 | awk '{print $3}')
+az storage account create -n $MY_PREFIX$AZURE_STORAGE_ACCOUNT_ID -g $MY_PREFIX-$MY_GROUP -l $MY_LOCATION --sku Standard_LRS
+export AZURE_STORAGE_KEY=$(az storage account keys list -g $MY_PREFIX-$MY_GROUP -n $MY_PREFIX$AZURE_STORAGE_ACCOUNT_ID -o table | grep key1 | awk '{print $4}')
 
 echo '-------Waiting for K10 services are up running in about 3 mins more or less'
 kubectl wait --for=condition=ready --timeout=300s -n kasten-io pod -l component=catalog
