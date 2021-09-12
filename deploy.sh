@@ -72,10 +72,10 @@ clusterid=$(kubectl get namespace default -ojsonpath="{.metadata.uid}{'\n'}")
 echo "" | awk '{print $1}' > aks-token
 echo My Cluster ID is $clusterid >> aks-token
 k10ui=http://$(kubectl get svc gateway-ext | awk '{print $4}'|grep -v EXTERNAL)/k10/#
-echo -e "\nLogin to K10 Web UI click here -->> $k10ui" >> aks-token
+echo -e "\nCopy below token code before Click the link to log into K10 Web UI -->> $k10ui" >> aks-token
 echo "" | awk '{print $1}' >> aks-token
 sa_secret=$(kubectl get serviceaccount k10-k10 -o jsonpath="{.secrets[0].name}" --namespace kasten-io)
-echo "Please enter below token to login" >> aks-token
+echo "Here is the token to login K10 Web UI" >> aks-token
 echo "" | awk '{print $1}' >> aks-token
 kubectl get secret $sa_secret --namespace kasten-io -ojsonpath="{.data.token}{'\n'}" | base64 --decode | awk '{print $1}' >> aks-token
 echo "" | awk '{print $1}' >> aks-token
