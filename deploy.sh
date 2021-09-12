@@ -68,22 +68,6 @@ echo '-------Create a Azure Storage account'
 az storage account create -n $MY_PREFIX$AZURE_STORAGE_ACCOUNT_ID -g $MY_PREFIX-$MY_GROUP -l $MY_LOCATION --sku Standard_LRS
 export AZURE_STORAGE_KEY=$(az storage account keys list -g $MY_PREFIX-$MY_GROUP -n $MY_PREFIX$AZURE_STORAGE_ACCOUNT_ID -o table | grep key1 | awk '{print $4}')
 
-echo '-------Waiting for K10 services are up running in about 3 mins more or less'
-kubectl wait --for=condition=ready --timeout=300s -n kasten-io pod -l component=catalog
-
-echo '-------Output the Cluster ID, Web UI IP and token'
-clusterid=$(kubectl get namespace default -ojsonpath="{.metadata.uid}{'\n'}")
-echo "" | awk '{print $1}' > aks-token
-echo My Cluster ID is $clusterid >> aks-token
-k10ui=http://$(kubectl get svc gateway-ext | awk '{print $4}'|grep -v EXTERNAL)/k10/#
-echo -e "\nCopy below token before clicking the link to log into K10 Web UI -->> $k10ui" >> aks-token
-echo "" | awk '{print $1}' >> aks-token
-sa_secret=$(kubectl get serviceaccount k10-k10 -o jsonpath="{.secrets[0].name}" --namespace kasten-io)
-echo "Here is the token to login K10 Web UI" >> aks-token
-echo "" | awk '{print $1}' >> aks-token
-kubectl get secret $sa_secret --namespace kasten-io -ojsonpath="{.data.token}{'\n'}" | base64 --decode | awk '{print $1}' >> aks-token
-echo "" | awk '{print $1}' >> aks-token
-
 echo '-------Create a Azure Blob Storage profile secret'
 kubectl create secret generic k10-azure-secret \
       --namespace kasten-io \
@@ -161,6 +145,23 @@ spec:
         values:
           - mysql
 EOF
+
+echo '-------Waiting for the Cluster ID, Web UI IP and token'
+clusterid=$(kubectl get namespace default -ojsonpath="{.metadata.uid}{'\n'}")
+echo "" | awk '{print $1}' > aks-token
+echo My Cluster ID is $clusterid >> aks-token
+kubectl wait --for=condition=ready --timeout=180s -n kasten-io pod -l component=jobs
+k10ui=http://$(kubectl get svc gateway-ext | awk '{print $4}'|grep -v EXTERNAL)/k10/#
+echo -e "\nCopy below token before clicking the link to log into K10 Web UI -->> $k10ui" >> aks-token
+echo "" | awk '{print $1}' >> aks-token
+sa_secret=$(kubectl get serviceaccount k10-k10 -o jsonpath="{.secrets[0].name}" --namespace kasten-io)
+echo "Here is the token to login K10 Web UI" >> aks-token
+echo "" | awk '{print $1}' >> aks-token
+kubectl get secret $sa_secret --namespace kasten-io -ojsonpath="{.data.token}{'\n'}" | base64 --decode | awk '{print $1}' >> aks-token
+echo "" | awk '{print $1}' >> aks-token
+
+echo '-------Waiting for K10 services are up running in about 3 mins more or less'
+kubectl wait --for=condition=ready --timeout=300s -n kasten-io pod -l component=catalog
 
 echo '-------Kickoff the on-demand backup job'
 cat <<EOF | kubectl create -f -
