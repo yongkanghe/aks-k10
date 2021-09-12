@@ -18,14 +18,9 @@ az aks create \
   --network-plugin azure
 
 echo '-------Exporting the Azure Tenant, Client, Secret'
-AZURE_SUBSCRIPTION_ID=$(az account list --query "[?isDefault][id]" --all -o tsv)
-MYID=$(az ad sp list --show-mine --query [].servicePrincipalNames -o table | grep https | awk '{print $2}')
-AZURE_TENANT_ID=$(az ad sp show --id $MYID --query appOwnerTenantId -o tsv)
-AZURE_CLIENT_ID=$(az ad sp show --id $MYID --query appId -o tsv)
-AKS_CLUSTER_NAME=$(az aks list -o table | grep $MY_CLUSTER | awk '{print $1}')
-SP_ID=$(az aks show --resource-group $MY_PREFIX-$MY_GROUP --name $AKS_CLUSTER_NAME \
-    --query servicePrincipalProfile.clientId -o tsv)
-AZURE_CLIENT_SECRET=$(az ad sp credential reset --name $SP_ID --query password -o tsv)
+AZURE_TENANT_ID=$(cat aks4yong1app | grep tenant | awk '{print $2}' | sed -e 's/\"//g')
+AZURE_CLIENT_ID=$(cat aks4yong1app | grep appId | awk '{print $2}' | sed -e 's/\"//g' | sed -e 's/\,//g')
+AZURE_CLIENT_SECRET=$(cat aks4yong1app | grep password | awk '{print $2}' | sed -e 's/\"//g' | sed -e 's/\,//g')
 
 az aks get-credentials -g $MY_PREFIX-$MY_GROUP -n $(az aks list -o table | grep $MY_PREFIX-$MY_CLUSTER | awk '{print $1}')
 
