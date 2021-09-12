@@ -52,7 +52,7 @@ vi setenv.sh
 # How to use it, watch the Youtube video. (To be recorded)
 [![IMAGE ALT TEXT HERE](https://img.youtube.com/vi/6vDEk_9cNaI/0.jpg)](https://www.youtube.com/watch?v=6vDEk_9cNaI)
 
-# For more details about AKS Backup and Restore
+# AKS Backup and Restore
 https://blog.kasten.io/posts/backup-and-recovery-in-microsoft-azure-with-kasten-k10/
 
 # Kasten - No. 1 Kubernetes Backup
