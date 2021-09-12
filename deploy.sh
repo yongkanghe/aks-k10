@@ -66,13 +66,7 @@ helm install mysql bitnami/mysql --namespace=mysql --set primary.persistence.siz
 
 echo '-------Create a Azure Storage account'
 az storage account create -n $MY_PREFIX$AZURE_STORAGE_ACCOUNT_ID -g $MY_PREFIX-$MY_GROUP -l $MY_LOCATION --sku Standard_LRS
-export AZURE_STORAGE_KEY=$(az storage account keys list -g $MY_PREFIX-$MY_GROUP -n $MY_PREFIX$AZURE_STORAGE_ACCOUNT_ID -o table | grep key1 | awk '{print $4}')
-
-echo '-------Create a Azure Blob Storage profile secret'
-kubectl create secret generic k10-azure-secret \
-      --namespace kasten-io \
-      --from-literal=azure_storage_account_id=$MY_PREFIX$AZURE_STORAGE_ACCOUNT_ID \
-      --from-literal=azure_storage_key=$AZURE_STORAGE_KEY 
+export AZURE_STORAGE_KEY=$(az storage account keys list -g $MY_PREFIX-$MY_GROUP -n $MY_PREFIX$AZURE_STORAGE_ACCOUNT_ID --query [].value -o tsv | head -1)
 
 echo '-------Waiting for the Cluster ID, Web UI IP and token'
 clusterid=$(kubectl get namespace default -ojsonpath="{.metadata.uid}{'\n'}")
@@ -90,6 +84,12 @@ echo "" | awk '{print $1}' >> aks-token
 
 echo '-------Waiting for K10 services are up running in about 3 mins more or less'
 kubectl wait --for=condition=ready --timeout=300s -n kasten-io pod -l component=catalog
+
+echo '-------Create a Azure Blob Storage profile secret'
+kubectl create secret generic k10-azure-secret \
+      --namespace kasten-io \
+      --from-literal=azure_storage_account_id=$MY_PREFIX$AZURE_STORAGE_ACCOUNT_ID \
+      --from-literal=azure_storage_key=$AZURE_STORAGE_KEY 
 
 echo '-------Creating a Azure Blob Storage profile'
 cat <<EOF | kubectl apply -f -
