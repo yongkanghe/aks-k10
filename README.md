@@ -43,11 +43,11 @@ vi setenv.sh
 ./destroy.sh
 ````
 1. Remove the resource group
-2. Remove AKS Kubernetes Cluster
-2. Remove all the relevant disks
-3. Remove all the relevant snapshots
-4. Remove all the storage account
-5. Remove the App Registration created by AKS cluster
+    a. Remove AKS Kubernetes Cluster
+    b. Remove all the relevant disks
+    c. Remove all the relevant snapshots
+    d. Remove all the storage account
+2. Remove the App Registration created by AKS cluster
 
 # How to use it, watch the Youtube video. (To be recorded)
 [![IMAGE ALT TEXT HERE](https://img.youtube.com/vi/6vDEk_9cNaI/0.jpg)](https://www.youtube.com/watch?v=6vDEk_9cNaI)
