@@ -24,23 +24,6 @@ AZURE_CLIENT_SECRET=$(cat aks4yong1app | grep password | awk '{print $2}' | sed 
 
 az aks get-credentials -g $MY_PREFIX-$MY_GROUP -n $(az aks list -o table | grep $MY_PREFIX-$MY_CLUSTER | awk '{print $1}')
 
-echo '-------Installing CSI Driver and enable snapshot support'
-curl -skSL https://raw.githubusercontent.com/kubernetes-sigs/azuredisk-csi-driver/master/deploy/install-driver.sh | bash -s master snapshot --
-
-echo '-------Creating a azure disk vsc'
-cat <<EOF | kubectl apply -f -
-apiVersion: snapshot.storage.k8s.io/v1beta1
-kind: VolumeSnapshotClass
-metadata:
-  annotations:
-    k10.kasten.io/is-snapshot-class: "true"
-  name: csi-azuredisk-vsc
-driver: disk.csi.azure.com
-deletionPolicy: Delete
-parameters:
-  incremental: "true"
-EOF
-
 echo '-------Install K10'
 kubectl create ns kasten-io
 helm repo add kasten https://charts.kasten.io/
@@ -56,11 +39,37 @@ helm install k10 kasten/k10 --namespace=kasten-io \
   --set auth.tokenAuth.enabled=true \
   --set externalGateway.create=true
 
+echo '-------Installing CSI Driver and enable snapshot support'
+curl -skSL https://raw.githubusercontent.com/kubernetes-sigs/azuredisk-csi-driver/master/deploy/install-driver.sh | bash -s master snapshot --
+
 echo '-------Set the default ns to k10'
 kubectl config set-context --current --namespace kasten-io
 
+echo '-------Creating a azure disk vsc'
+cat <<EOF | kubectl apply -f -
+apiVersion: snapshot.storage.k8s.io/v1beta1
+kind: VolumeSnapshotClass
+metadata:
+  annotations:
+    k10.kasten.io/is-snapshot-class: "true"
+  name: csi-azuredisk-vsc
+driver: disk.csi.azure.com
+deletionPolicy: Delete
+parameters:
+  incremental: "true"
+EOF
+
+echo '-------Deploy a MySQL database'
+kubectl create namespace mysql
+helm repo add bitnami https://charts.bitnami.com/bitnami
+helm install mysql bitnami/mysql --namespace=mysql --set primary.persistence.size=1Gi,secondary.persistence.size=1Gi	
+
+echo '-------Create a Azure Storage account'
+AKS_RG=$(az group list -o table | grep rg4yong1 | grep MC | awk '{print $1}')
+az storage account create -n $MY_PREFIX$AZURE_STORAGE_ACCOUNT_ID -g $AKS_RG -l $MY_LOCATION --sku Standard_LRS
+export AZURE_STORAGE_KEY=$(az storage account keys list -g $AKS_RG -n $MY_PREFIX$AZURE_STORAGE_ACCOUNT_ID -o table | grep key1 | awk '{print $3}')
+
 echo '-------Waiting for K10 services are up running in about 3 mins more or less'
-sleep 3
 kubectl wait --for=condition=ready --timeout=300s -n kasten-io pod -l component=catalog
 
 echo '-------Output the Cluster ID, Web UI IP and token'
@@ -75,16 +84,6 @@ echo "Here is the token to login K10 Web UI" >> aks-token
 echo "" | awk '{print $1}' >> aks-token
 kubectl get secret $sa_secret --namespace kasten-io -ojsonpath="{.data.token}{'\n'}" | base64 --decode | awk '{print $1}' >> aks-token
 echo "" | awk '{print $1}' >> aks-token
-
-echo '-------Deploy a MySQL database'
-kubectl create namespace mysql
-helm repo add bitnami https://charts.bitnami.com/bitnami
-helm install mysql bitnami/mysql --namespace=mysql --set primary.persistence.size=1Gi,secondary.persistence.size=1Gi	
-
-echo '-------Create a Azure Storage account'
-AKS_RG=$(az group list -o table | grep rg4yong1 | grep MC | awk '{print $1}')
-az storage account create -n $MY_PREFIX$AZURE_STORAGE_ACCOUNT_ID -g $AKS_RG -l $MY_LOCATION --sku Standard_LRS
-export AZURE_STORAGE_KEY=$(az storage account keys list -g $AKS_RG -n $MY_PREFIX$AZURE_STORAGE_ACCOUNT_ID -o table | grep key1 | awk '{print $3}')
 
 echo '-------Create a Azure Blob Storage profile secret'
 kubectl create secret generic k10-azure-secret \
@@ -165,7 +164,6 @@ spec:
 EOF
 
 echo '-------Kickoff the on-demand backup job'
-sleep 5
 cat <<EOF | kubectl create -f -
 apiVersion: actions.kio.kasten.io/v1alpha1
 kind: RunAction
