@@ -38,22 +38,30 @@ vi setenv.sh
 3. Deploy a MySQL database
 4. Create a location profile
 5. Create a backup policy
+6. Kick off an on-demand backup job
 + Take a snapshot of Application Components
 + Take a snapshot of Application Configurations
 + Take a snapshot of Workload MySQL
 + Export the snapshot to Azure Blob Storage
-6. Kick off an on-demand backup job
 
 # To delete the labs, run 
 ````
 ./destroy.sh
 ````
-1. Remove the resource group
++ Remove the resource group
 + Remove AKS Kubernetes Cluster
 + Remove all the relevant disks
 + Remove all the relevant snapshots
 + Remove all the storage account
-2. Remove the App Registration created by AKS cluster
+
+# To kickoff a backup job manually, run 
+````
+./runonce.sh
+````
++ Take a snapshot of Application Components
++ Take a snapshot of Application Configurations
++ Take a snapshot of Workload MySQL
++ Export the snapshot to Azure Blob Storage
 
 # How to use it, watch the Youtube video. (To be recorded)
 [![IMAGE ALT TEXT HERE](https://img.youtube.com/vi/6vDEk_9cNaI/0.jpg)](https://www.youtube.com/watch?v=6vDEk_9cNaI)
