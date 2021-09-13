@@ -64,7 +64,7 @@ vi setenv.sh
 + Export the snapshot to Azure Blob Storage
 
 # How to use it, watch the Youtube video. (To be recorded)
-[![IMAGE ALT TEXT HERE](https://img.youtube.com/vi/6vDEk_9cNaI/0.jpg)](https://www.youtube.com/watch?v=308ZOMRaRDk)
+[![IMAGE ALT TEXT HERE](https://img.youtube.com/vi/308ZOMRaRDk/0.jpg)](https://www.youtube.com/watch?v=308ZOMRaRDk)
 
 # AKS Backup and Restore
 https://blog.kasten.io/posts/backup-and-recovery-in-microsoft-azure-with-kasten-k10/
