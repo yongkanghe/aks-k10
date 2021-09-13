@@ -38,6 +38,10 @@ vi setenv.sh
 3. Deploy a MySQL database
 4. Create a location profile
 5. Create a backup policy
++ Take a snapshot of Application Components
++ Take a snapshot of Application Configurations
++ Take a snapshot of Workload MySQL
++ Export the snapshot to Azure Blob Storage
 6. Kick off an on-demand backup job
 
 # To delete the labs, run 
