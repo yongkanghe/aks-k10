@@ -63,7 +63,7 @@ vi setenv.sh
 + Take a snapshot of Workload MySQL
 + Export the snapshot to Azure Blob Storage
 
-# How to use it, watch the Youtube video. (To be recorded)
+# How to use it, watch the Youtube video.
 [![IMAGE ALT TEXT HERE](https://img.youtube.com/vi/308ZOMRaRDk/0.jpg)](https://www.youtube.com/watch?v=308ZOMRaRDk)
 
 # AKS Backup and Restore
