@@ -164,7 +164,10 @@ spec:
           - mysql
 EOF
 
+sleep 3
+
 echo '-------Kickoff the on-demand backup job'
+sleep 2
 cat <<EOF | kubectl create -f -
 apiVersion: actions.kio.kasten.io/v1alpha1
 kind: RunAction
