@@ -6,25 +6,19 @@ It is challenging to create AKS Cluster from Azure Cloud if you are not familiar
 ![image](https://blog.kasten.io/hs-fs/hubfs/Kasten_January2020/Images/microsoft-azure-with-kasten-k10-intro-blog.png?width=1226&name=microsoft-azure-with-kasten-k10-intro-blog.png)
 
 
-This script based automation allows you to build a ready-to-use Kasten K10 demo environment running on AKS in about 10 minutes. For simplicity and cost optimization, the AKS cluster will have only one worker node in the newly created vnet and subnet. This is bash shell based scripts which might only work on Linux and MacOS terminal or Cloud Shell. 
+This script based automation allows you to build a ready-to-use Kasten K10 demo environment running on AKS in about 10 minutes. For simplicity and cost optimization, the AKS cluster will have only one worker node in the newly created vnet and subnet. This is bash shell based scripts which has been tested on Cloud Shell. Linux or MacOS terminal has not been tested though it might work as well. 
 
 # Here're the prerequisities. 
-## Step 1 to 3 required for MacOS and Linux, skip for Cloud Shell.
-1. Install the Azure CLI https://docs.microsoft.com/en-us/cli/azure/install-azure-cli 
-2. Signin with Azure CLI, run below command 
-````
-az login
-````
-3. Install git if not installed, https://www.linode.com/docs/guides/how-to-install-git-on-linux-mac-and-windows/
-4. Clone the github repo to your local host, run below command
+1. Go to open Azure Cloud Shell
+2. Clone the github repo to your local host, run below command
 ````
 git clone https://github.com/yongkanghe/aks-k10.git
 ````
-5. Create Azure App Registration first
+3. Create Azure App Registration first
 ````
 cd aks-k10;./createapp.sh
 ````
-6. Optionally, you can customize the clustername, vm size, location, region, containername, etc.
+4. Optionally, you can customize the clustername, vm size, location, region, containername, etc.
 ````
 vi setenv.sh
 ````
