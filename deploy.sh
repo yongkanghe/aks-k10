@@ -27,6 +27,8 @@ az aks get-credentials -g $MY_PREFIX-$MY_GROUP -n $(az aks list -o table | grep 
 echo '-------Install K10'
 kubectl create ns kasten-io
 helm repo add kasten https://charts.kasten.io/
+
+#For Production, remove the lines ending with =1Gi from helm install
 helm install k10 kasten/k10 --namespace=kasten-io \
   --set secrets.azureTenantId=$AZURE_TENANT_ID \
   --set secrets.azureClientId=$AZURE_CLIENT_ID \
@@ -36,8 +38,10 @@ helm install k10 kasten/k10 --namespace=kasten-io \
   --set global.persistence.catalog.size=1Gi \
   --set global.persistence.jobs.size=1Gi \
   --set global.persistence.logging.size=1Gi \
+  --set global.persistence.grafana.size=1Gi \
   --set auth.tokenAuth.enabled=true \
-  --set externalGateway.create=true
+  --set externalGateway.create=true \
+  --set metering.mode=airgap 
 
 echo '-------Installing CSI Driver and enable snapshot support'
 curl -skSL https://raw.githubusercontent.com/kubernetes-sigs/azuredisk-csi-driver/master/deploy/install-driver.sh | bash -s master snapshot --
@@ -62,7 +66,8 @@ EOF
 echo '-------Deploy a MySQL database'
 kubectl create namespace mysql
 helm repo add bitnami https://charts.bitnami.com/bitnami
-helm install mysql bitnami/mysql --namespace=mysql --set primary.persistence.size=1Gi,secondary.persistence.size=1Gi	
+helm install mysql bitnami/mysql --namespace=mysql \
+  --set primary.persistence.size=1Gi,secondary.persistence.size=1Gi	
 
 echo '-------Create a Azure Storage account'
 AKS_RG=$(az group list -o table | grep $MY_PREFIX-$MY_GROUP | grep MC | awk '{print $1}')
