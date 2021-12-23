@@ -1,3 +1,4 @@
+#### Follow [@YongkangHe](https://twitter.com/yongkanghe) on Twitter, Subscribe [K8s Data Management](https://www.youtube.com/channel/UCm-sw1b23K-scoVSCDo30YQ?sub_confirmation=1) Youtube Channel
 
 I just want to build an AKS Cluster to play with the various Data Management capabilities e.g. Backup/Restore, Disaster Recovery and Application Mobility. 
 
@@ -57,8 +58,9 @@ vi setenv.sh
 + Take a snapshot of Workload MySQL
 + Export the snapshot to Azure Blob Storage
 
-# Cick my picture to watch the how-to video.
+# Cick my picture to watch how-to video.
 [![IMAGE ALT TEXT HERE](https://img.youtube.com/vi/308ZOMRaRDk/0.jpg)](https://www.youtube.com/watch?v=308ZOMRaRDk)
+#### Subscribe [K8s Data Management](https://www.youtube.com/channel/UCm-sw1b23K-scoVSCDo30YQ?sub_confirmation=1) Youtube Channel
 
 # AKS Backup and Restore
 https://blog.kasten.io/posts/backup-and-recovery-in-microsoft-azure-with-kasten-k10/
@@ -71,5 +73,5 @@ http://k10.yongkang.cloud
 
 # Contributors
 
-### [Yongkang He](https://github.com/yongkanghe)
+#### Follow [Yongkang He](http://yongkang.cloud) on LinkedIn, Join [Kubernetes Data Management](https://www.linkedin.com/groups/13983251) LinkedIn Group
 
