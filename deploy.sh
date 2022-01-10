@@ -43,8 +43,8 @@ helm install k10 kasten/k10 --namespace=kasten-io \
   --set externalGateway.create=true \
   --set metering.mode=airgap 
 
-echo '-------Installing CSI Driver and enable snapshot support'
-curl -skSL https://raw.githubusercontent.com/kubernetes-sigs/azuredisk-csi-driver/master/deploy/install-driver.sh | bash -s master snapshot --
+# echo '-------Installing CSI Driver and enable snapshot support'
+# curl -skSL https://raw.githubusercontent.com/kubernetes-sigs/azuredisk-csi-driver/master/deploy/install-driver.sh | bash -s master snapshot --
 
 echo '-------Set the default ns to k10'
 kubectl config set-context --current --namespace kasten-io
