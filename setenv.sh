@@ -9,4 +9,4 @@ export MY_REGION="Southeast Asia"    #Customize region for Blob Storage
 export MY_CONTAINER=k10container4yong1      #Customize your container
 export MY_OBJECT_STORAGE_PROFILE=myazblob1  #Customize your profile name
 export AZURE_STORAGE_ACCOUNT_ID=azsa4yong1  #Customize your Storage Account
-export K8S_VERSION=1.20                     #Customize your Kubernetes Version
+export K8S_VERSION=1.21                     #Customize your Kubernetes Version
