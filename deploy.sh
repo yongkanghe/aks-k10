@@ -1,6 +1,6 @@
 echo '-------Creating a Resource Group and AKS Cluster (typically in less than 10 mins)'
 starttime=$(date +%s)
-. setenv.sh
+. ./setenv.sh
 MY_PREFIX=$(echo $(whoami) | sed -e 's/\_//g' | sed -e 's/\.//g' | awk '{print tolower($0)}')
 az group create --name $MY_PREFIX-$MY_GROUP --location $MY_LOCATION
 AKS_K8S_VERSION=$(az aks get-versions --location $MY_LOCATION --output table | awk '{print $1}' | grep 1.20 | head -1)
