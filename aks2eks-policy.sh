@@ -1,4 +1,4 @@
-export MY_REGION=ap-southeast-2
+export MY_REGION=ap-southeast-1
 export MY_OBJECT_STORAGE_PROFILE=myaws3-migration
 
 echo '------Create backup policies'
