@@ -27,6 +27,7 @@ az aks get-credentials -g $MY_PREFIX-$MY_GROUP -n $(az aks list -o table | grep 
 echo '-------Install K10'
 kubectl create ns kasten-io
 helm repo add kasten https://charts.kasten.io/
+helm repo update 
 
 #For Production, remove the lines ending with =1Gi from helm install
 helm install k10 kasten/k10 --namespace=kasten-io \
