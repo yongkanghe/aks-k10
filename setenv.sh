@@ -1,8 +1,8 @@
 #-------Set the environment variables"
 export MY_GROUP=rg4yong1            #Customize your resource group name
 export MY_CLUSTER=aks4yong1         #Customize your cluster name
-export MY_VMSIZE=Standard_D4as_v4   #Customize your VM size
-# export MY_VMSIZE=Standard_D2as_v4   #Customize your VM size
+# export MY_VMSIZE=Standard_D4as_v4   #Customize your VM size
+export MY_VMSIZE=Standard_D2as_v4   #Customize your VM size
 export MY_LOCATION=southeastasia     #Customize your location
 export MY_REGION="Southeast Asia"    #Customize region for Blob Storage
 # export MY_LOCATION=centralindia     #Customize your location
