@@ -65,9 +65,9 @@ parameters:
 EOF
 
 echo '-------Deploy a MySQL database'
-kubectl create namespace Yong-mysql
+kubectl create namespace yong-mysql
 helm repo add bitnami https://charts.bitnami.com/bitnami
-helm install mysql bitnami/mysql --namespace=Yong-mysql \
+helm install mysql bitnami/mysql --namespace=yong-mysql \
   --set primary.persistence.size=1Gi,secondary.persistence.size=1Gi	
 
 echo '-------Create a Azure Storage account'
@@ -127,7 +127,7 @@ cat <<EOF | kubectl apply -f -
 apiVersion: config.kio.kasten.io/v1alpha1
 kind: Policy
 metadata:
-  name: Yong-mysql-backup
+  name: yong-mysql-backup
   namespace: kasten-io
 spec:
   comment: ""
@@ -167,7 +167,7 @@ spec:
       - key: k10.kasten.io/appNamespace
         operator: In
         values:
-          - Yong-mysql
+          - yong-mysql
 EOF
 
 sleep 5
@@ -182,7 +182,7 @@ metadata:
 spec:
   subject:
     kind: Policy
-    name: Yong-mysql-backup
+    name: yong-mysql-backup
     namespace: kasten-io
 EOF
 
