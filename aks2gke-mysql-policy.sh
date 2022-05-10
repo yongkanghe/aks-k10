@@ -1,4 +1,4 @@
-export MY_OBJECT_STORAGE_PROFILE=myaws3-migratio
+export MY_OBJECT_STORAGE_PROFILE=myaws3-migration
 
 echo '------Create backup policies'
 cat <<EOF | kubectl apply -f -
