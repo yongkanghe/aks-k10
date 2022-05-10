@@ -45,7 +45,7 @@ spec:
       - key: k10.kasten.io/appNamespace
         operator: In
         values:
-          - k10-mysql
+          - yong-mysql
 EOF
 
 sleep 5
