@@ -75,3 +75,4 @@ http://k10.yongkang.cloud
 
 #### Follow [Yongkang He](http://yongkang.cloud) on LinkedIn, Join [Kubernetes Data Management](https://www.linkedin.com/groups/13983251) LinkedIn Group
 
+#### Follow [Louisa He](https://www.linkedin.com/in/louisahe/) on LinkedIn, Join [Kubernetes Data Management](https://lnkd.in/gZbwVMg5) Slack Channel
