@@ -7,6 +7,6 @@ metadata:
 spec:
   subject:
     kind: Policy
-    name: mysql-backup
+    name: yong-mysql-backup
     namespace: kasten-io
 EOF
