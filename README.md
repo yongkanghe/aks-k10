@@ -7,7 +7,11 @@ It is challenging to create AKS Cluster from Azure Cloud if you are not familiar
 ![image](https://blog.kasten.io/hs-fs/hubfs/Kasten_January2020/Images/microsoft-azure-with-kasten-k10-intro-blog.png?width=1226&name=microsoft-azure-with-kasten-k10-intro-blog.png)
 
 
-This script based automation allows you to build a ready-to-use Kasten K10 demo environment running on AKS in about 10 minutes. For simplicity and cost optimization, the AKS cluster will have only one worker node in the newly created vnet and subnet. This is bash shell based scripts which has been tested on Cloud Shell. Linux or MacOS terminal has not been tested though it might work as well. 
+This script based automation allows you to build a ready-to-use Kasten K10 demo environment running on AKS in about 10 minutes. For simplicity and cost optimization, the AKS cluster will have only one worker node in the newly created vnet and subnet. This is bash shell based scripts which has been tested on Cloud Shell. Linux or MacOS terminal has not been tested though it might work as well. If you don't have an Azure account, please watch the video by Louisa below to sign up a free trial account in 5 minutes. 
+
+# Sign up an Azure trail account
+[![IMAGE ALT TEXT HERE](https://img.youtube.com/vi/FN0ARvEdrjg/0.jpg)](https://www.youtube.com/watch?v=FN0ARvEdrjg)
+#### Subscribe [K8s Data Management](https://www.youtube.com/channel/UCm-sw1b23K-scoVSCDo30YQ?sub_confirmation=1) Youtube Channel
 
 # Here're the prerequisities. 
 1. Go to open Azure Cloud Shell
@@ -31,7 +35,7 @@ vi setenv.sh
 1. Create an AKS Cluster from CLI
 2. Install Kasten K10
 3. Deploy a MySQL database
-4. Create a location profile
+4. Create an Azure BlobStorage location profile
 5. Create a backup policy
 6. Kick off an on-demand backup job
 + Take a snapshot of Application Components
@@ -58,7 +62,7 @@ vi setenv.sh
 + Take a snapshot of Workload MySQL
 + Export the snapshot to Azure Blob Storage
 
-# Watch the how-to video
+# Automate AKS creation & protection
 [![IMAGE ALT TEXT HERE](https://img.youtube.com/vi/308ZOMRaRDk/0.jpg)](https://www.youtube.com/watch?v=308ZOMRaRDk)
 #### Subscribe [K8s Data Management](https://www.youtube.com/channel/UCm-sw1b23K-scoVSCDo30YQ?sub_confirmation=1) Youtube Channel
 
