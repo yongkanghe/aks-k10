@@ -9,7 +9,7 @@ It is challenging to create AKS Cluster from Azure Cloud if you are not familiar
 
 This script based automation allows you to build a ready-to-use Kasten K10 demo environment running on AKS in about 10 minutes. For simplicity and cost optimization, the AKS cluster will have only one worker node in the newly created vnet and subnet. This is bash shell based scripts which has been tested on Cloud Shell. Linux or MacOS terminal has not been tested though it might work as well. If you don't have an Azure account, please watch the video by Louisa below to sign up a free trial account in 5 minutes. 
 
-# Sign up an Azure trail account
+# Sign up an Azure trial account
 [![IMAGE ALT TEXT HERE](https://img.youtube.com/vi/FN0ARvEdrjg/0.jpg)](https://www.youtube.com/watch?v=FN0ARvEdrjg)
 #### Subscribe [K8s Data Management](https://www.youtube.com/channel/UCm-sw1b23K-scoVSCDo30YQ?sub_confirmation=1) Youtube Channel
 
