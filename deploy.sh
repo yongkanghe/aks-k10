@@ -81,7 +81,9 @@ echo "" | awk '{print $1}' > aks-token
 echo My Cluster ID is $clusterid >> aks-token
 kubectl wait --for=condition=ready --timeout=180s -n kasten-io pod -l component=jobs
 k10ui=http://$(kubectl get svc gateway-ext | awk '{print $4}'|grep -v EXTERNAL)/k10/#
-echo -e "\nCopy below token before clicking the link to log into K10 Web UI -->> $k10ui" >> aks-token
+echo -e "\nHere is the URL to log into K10 Web UI" >> aks-token
+echo "" | awk '{print $1}' >> aks-token
+echo -e "\nk10ui" >> aks-token
 echo "" | awk '{print $1}' >> aks-token
 sa_secret=$(kubectl get serviceaccount k10-k10 -o jsonpath="{.secrets[0].name}" --namespace kasten-io)
 echo "Here is the token to login K10 Web UI" >> aks-token
