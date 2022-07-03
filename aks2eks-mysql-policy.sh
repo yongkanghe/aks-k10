@@ -62,6 +62,6 @@ metadata:
 spec:
   subject:
     kind: Policy
-    name: aks2eks-backup
+    name: aks2eks-mysql-backup
     namespace: kasten-io
 EOF
