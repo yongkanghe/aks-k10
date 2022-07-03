@@ -6,7 +6,7 @@ cat <<EOF | kubectl apply -f -
 apiVersion: config.kio.kasten.io/v1alpha1
 kind: Policy
 metadata:
-  name: aks2eks-backup
+  name: aks2eks-mysql-backup
   namespace: kasten-io
 spec:
   comment: ""
