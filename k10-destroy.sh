@@ -8,6 +8,7 @@ kubectl delete ns yong-mysql
 kubectl delete ns kasten-io
 
 echo '-------Deleting objects from Azure Blob Storage Bucket'
+az storage blob delete-batch --account-name $MY_PREFIX$AZURE_STORAGE_ACCOUNT_ID -s $MY_PREFIX-$MY_CONTAINER --account-key $(cat az_storage_key)
 
 endtime=$(date +%s)
 duration=$(( $endtime - $starttime ))
