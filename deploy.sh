@@ -1,4 +1,4 @@
-echo '-------Creating an AKS Cluster + K10 (typically < 10 mins)'
+echo '-------Creating an AKS Cluster + K10 (~8 mins)'
 starttime=$(date +%s)
 
 #Create an AKS cluster
