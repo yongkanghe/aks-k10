@@ -1,7 +1,7 @@
 . ./setenv.sh
 
 echo '-------Create a Azure Blob Storage profile secret'
-kubectl create secret generic k10-aro-azure-secret \
+kubectl create secret generic k10-azure-secret \
       --namespace kasten-io \
       --from-literal=azure_storage_account_id=$MY_PREFIX$AZURE_STORAGE_ACCOUNT_ID \
       --from-literal=azure_storage_key=$AZURE_STORAGE_KEY 
@@ -21,7 +21,7 @@ spec:
       secret:
         apiVersion: v1
         kind: Secret
-        name: k10-aro-azure-secret
+        name: k10-azure-secret
         namespace: kasten-io
     type: ObjectStore
     objectStore:
