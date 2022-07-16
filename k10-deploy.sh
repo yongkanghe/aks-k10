@@ -54,7 +54,7 @@ helm install mysql bitnami/mysql --namespace=yong-mysql \
 echo '-------Create a Azure Storage account'
 AKS_RG=$(az group list -o table | grep $MY_PREFIX-$MY_GROUP | grep MC | awk '{print $1}')
 az storage account create -n $MY_PREFIX$AZURE_STORAGE_ACCOUNT_ID -g $AKS_RG -l $MY_LOCATION --sku Standard_LRS
-export AZURE_STORAGE_KEY=$(az storage account keys list -g $AKS_RG -n $MY_PREFIX$AZURE_STORAGE_ACCOUNT_ID --query [].value -o tsv | head -1)
+echo $(az storage account keys list -g $AKS_RG -n $MY_PREFIX$AZURE_STORAGE_ACCOUNT_ID --query [].value -o tsv | head -1) > az_storage_key
 
 echo '-------Waiting for the Cluster ID, Web UI IP and token in about 2 mins'
 clusterid=$(kubectl get namespace default -ojsonpath="{.metadata.uid}{'\n'}")
