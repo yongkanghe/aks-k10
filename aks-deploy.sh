@@ -1,4 +1,4 @@
-echo '-------Creating an AKS Cluster (typically in mins)'
+echo '-------Creating an AKS Cluster only (~4 mins)'
 starttime=$(date +%s)
 . ./setenv.sh
 az group create --name $MY_PREFIX-$MY_GROUP --location $MY_LOCATION
