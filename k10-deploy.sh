@@ -58,18 +58,18 @@ export AZURE_STORAGE_KEY=$(az storage account keys list -g $AKS_RG -n $MY_PREFIX
 
 echo '-------Waiting for the Cluster ID, Web UI IP and token in about 2 mins'
 clusterid=$(kubectl get namespace default -ojsonpath="{.metadata.uid}{'\n'}")
-echo "" | awk '{print $1}' > aks-token
-echo My Cluster ID is $clusterid >> aks-token
+echo "" | awk '{print $1}' > aks_token
+echo My Cluster ID is $clusterid >> aks_token
 kubectl wait --for=condition=ready --timeout=180s -n kasten-io pod -l component=jobs
 k10ui=http://$(kubectl get svc gateway-ext | awk '{print $4}'|grep -v EXTERNAL)/k10/#
-echo -e "\nHere is the URL to log into K10 Web UI" >> aks-token
-echo -e "\n$k10ui" >> aks-token
-echo "" | awk '{print $1}' >> aks-token
+echo -e "\nHere is the URL to log into K10 Web UI" >> aks_token
+echo -e "\n$k10ui" >> aks_token
+echo "" | awk '{print $1}' >> aks_token
 sa_secret=$(kubectl get serviceaccount k10-k10 -o jsonpath="{.secrets[0].name}" --namespace kasten-io)
-echo "Here is the token to login K10 Web UI" >> aks-token
-echo "" | awk '{print $1}' >> aks-token
-kubectl get secret $sa_secret --namespace kasten-io -ojsonpath="{.data.token}{'\n'}" | base64 --decode | awk '{print $1}' >> aks-token
-echo "" | awk '{print $1}' >> aks-token
+echo "Here is the token to login K10 Web UI" >> aks_token
+echo "" | awk '{print $1}' >> aks_token
+kubectl get secret $sa_secret --namespace kasten-io -ojsonpath="{.data.token}{'\n'}" | base64 --decode | awk '{print $1}' >> aks_token
+echo "" | awk '{print $1}' >> aks_token
 
 echo '-------Waiting for K10 services are up running in about 3 mins more or less'
 kubectl wait --for=condition=ready --timeout=300s -n kasten-io pod -l component=catalog
@@ -79,7 +79,7 @@ kubectl wait --for=condition=ready --timeout=300s -n kasten-io pod -l component=
 ./mysql-policy.sh
 
 echo '-------Accessing K10 UI'
-cat aks-token
+cat aks_token
 
 endtime=$(date +%s)
 duration=$(( $endtime - $starttime ))
