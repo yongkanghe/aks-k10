@@ -4,7 +4,7 @@ echo '-------Create a Azure Blob Storage profile secret'
 kubectl create secret generic k10-azure-secret \
       --namespace kasten-io \
       --from-literal=azure_storage_account_id=$MY_PREFIX$AZURE_STORAGE_ACCOUNT_ID \
-      --from-literal=azure_storage_key=$AZURE_STORAGE_KEY 
+      --from-literal=azure_storage_key=$(cat az_storage_key)
 
 echo '-------Creating a Azure Blob Storage profile'
 cat <<EOF | kubectl apply -f -
