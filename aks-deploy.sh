@@ -18,6 +18,11 @@ az aks create \
 
 az aks get-credentials -g $MY_PREFIX-$MY_GROUP -n $(az aks list -o table | grep $MY_PREFIX-$MY_CLUSTER | awk '{print $1}')
 
+echo '-------Create a Azure Storage account'
+AKS_RG=$(az group list -o table | grep $MY_PREFIX-$MY_GROUP | grep MC | awk '{print $1}')
+az storage account create -n $MY_PREFIX$AZURE_STORAGE_ACCOUNT_ID -g $AKS_RG -l $MY_LOCATION --sku Standard_LRS
+echo $(az storage account keys list -g $AKS_RG -n $MY_PREFIX$AZURE_STORAGE_ACCOUNT_ID --query [].value -o tsv | head -1) > az_storage_key
+
 echo "" | awk '{print $1}'
 endtime=$(date +%s)
 duration=$(( $endtime - $starttime ))
