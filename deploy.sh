@@ -93,35 +93,39 @@ echo "" | awk '{print $1}' >> aks-token
 echo '-------Waiting for K10 services are up running in about 3 mins more or less'
 kubectl wait --for=condition=ready --timeout=300s -n kasten-io pod -l component=catalog
 
-echo '-------Create a Azure Blob Storage profile secret'
-kubectl create secret generic k10-azure-secret \
-      --namespace kasten-io \
-      --from-literal=azure_storage_account_id=$MY_PREFIX$AZURE_STORAGE_ACCOUNT_ID \
-      --from-literal=azure_storage_key=$AZURE_STORAGE_KEY 
+# echo '-------Create a Azure Blob Storage profile secret'
+# kubectl create secret generic k10-azure-secret \
+#       --namespace kasten-io \
+#       --from-literal=azure_storage_account_id=$MY_PREFIX$AZURE_STORAGE_ACCOUNT_ID \
+#       --from-literal=azure_storage_key=$AZURE_STORAGE_KEY 
 
-echo '-------Creating a Azure Blob Storage profile'
-cat <<EOF | kubectl apply -f -
-apiVersion: config.kio.kasten.io/v1alpha1
-kind: Profile
-metadata:
-  name: $MY_OBJECT_STORAGE_PROFILE
-  namespace: kasten-io
-spec:
-  type: Location
-  locationSpec:
-    credential:
-      secretType: AzStorageAccount
-      secret:
-        apiVersion: v1
-        kind: Secret
-        name: k10-azure-secret
-        namespace: kasten-io
-    type: ObjectStore
-    objectStore:
-      name: $MY_PREFIX-$MY_CONTAINER
-      objectStoreType: AZ
-      region: $MY_REGION
-EOF
+# echo '-------Creating a Azure Blob Storage profile'
+# cat <<EOF | kubectl apply -f -
+# apiVersion: config.kio.kasten.io/v1alpha1
+# kind: Profile
+# metadata:
+#   name: $MY_OBJECT_STORAGE_PROFILE
+#   namespace: kasten-io
+# spec:
+#   type: Location
+#   locationSpec:
+#     credential:
+#       secretType: AzStorageAccount
+#       secret:
+#         apiVersion: v1
+#         kind: Secret
+#         name: k10-azure-secret
+#         namespace: kasten-io
+#     type: ObjectStore
+#     objectStore:
+#       name: $MY_PREFIX-$MY_CONTAINER
+#       objectStoreType: AZ
+#       region: $MY_REGION
+# EOF
+
+./az-location.sh
+
+./mysql-policy.sh
 
 # echo '------Create backup policies'
 # cat <<EOF | kubectl apply -f -
