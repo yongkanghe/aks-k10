@@ -32,8 +32,8 @@ vi setenv.sh
 
 | Don't have an AKS cluster | Already have an AKS cluster     | Have nothing                    |
 |---------------------------|---------------------------------|---------------------------------|
-| Deploy AKS                | Deploy K10                      | Deploy AKS and K10              |
-| ``` ./eks-deploy.sh ```   | ``` ./k10-deploy.sh ```         | ``` ./deploy.sh ```             |
+| Deploy AKS only           | Deploy K10 only                 | Deploy AKS and K10              |
+| ``` ./aks-deploy.sh ```   | ``` ./k10-deploy.sh ```         | ``` ./deploy.sh ```             |
 | 1.Create an AKS Cluster   |                                 | 1.Create an AKS Cluster         |
 |                           | 1.Install Kasten K10            | 2.Install Kasten K10            |
 |                           | 2.Deploy a MySQL database       | 3.Deploy a MySQL database       |
@@ -43,7 +43,7 @@ vi setenv.sh
 
 # Destroy based on your needs
 
-| Destroy AKS               | Destroy K10                         | Destroy AKS and K10                 |
+| Destroy AKS only          | Destroy K10 only                    | Destroy AKS and K10                 |
 |---------------------------|-------------------------------------|-------------------------------------|
 | ``` ./eks-destroy.sh ```  | ``` ./k10-destroy.sh ```            | ``` ./destroy.sh ```                |
 | 1.Remove the AKS Cluster  |                                     | 1.Remove the Resource Group         |
