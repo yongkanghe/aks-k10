@@ -46,10 +46,10 @@ vi setenv.sh
 | Destroy AKS only          | Destroy K10 only                     | Destroy AKS and K10                 |
 |---------------------------|--------------------------------------|-------------------------------------|
 | ``` ./aks-destroy.sh ```  | ``` ./k10-destroy.sh ```             | ``` ./destroy.sh ```                |
-| 1.Remove the AKS Cluster  |                                      | 1. Remove the Resource Group        |
-|                           | 1. Remove MySQL database             |  + Remove AKS Kubernetes Cluster    |
-|                           | 2. Remove Kasten K10                 |  + Remove the disks and snapshots   |
-|                           | 3. Remove Azure Blob storage bucket  |  + Remove the storage account etc.  |
+| 1. Remove the AKS Cluster |                                      | 1. Remove the Resource Group        |
+|                           | 1. Remove MySQL database             |    + Remove AKS Kubernetes Cluster  |
+|                           | 2. Remove Kasten K10                 |    + Remove the disks and snapshots |
+|                           | 3. Remove Azure Blob storage bucket  |    + Remove the storage account etc.|
 
 # To kickoff a backup job manually, run 
 ````
