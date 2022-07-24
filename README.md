@@ -1,6 +1,6 @@
 #### Follow [@YongkangHe](https://twitter.com/yongkanghe) on Twitter, Subscribe [K8s Data Management](https://www.youtube.com/channel/UCm-sw1b23K-scoVSCDo30YQ?sub_confirmation=1) Youtube Channel
 
-I just want to build an AKS Cluster to play with the various Data Management capabilities e.g. Backup/Restore, Disaster Recovery and Application Mobility. 
+I just want to build an AKS Cluster to play with the various Data Management capabilities e.g. Container's Backup/Restore, Disaster Recovery and Application Mobility. 
 
 It is challenging to create AKS Cluster from Azure Cloud if you are not familiar to it. After the AKS Cluster is up running, we still need to install Kasten, create a sample database, create location profile, backup policies etc.. The whole process is not that simple.
 
@@ -27,31 +27,29 @@ cd aks-k10;./createapp.sh
 ````
 vi setenv.sh
 ````
- 
-# To build the labs, run 
-````
-./deploy.sh
-````
-1. Create an AKS Cluster from CLI
-2. Install Kasten K10
-3. Deploy a MySQL database
-4. Create an Azure BlobStorage location profile
-5. Create a backup policy
-6. Kick off an on-demand backup job
-+ Take a snapshot of Application Components
-+ Take a snapshot of Application Configurations
-+ Take a snapshot of Workload MySQL
-+ Export the snapshot to Azure Blob Storage
 
-# To delete the labs, run 
-````
-./destroy.sh
-````
-+ Remove the resource group
-+ Remove AKS Kubernetes Cluster
-+ Remove all the relevant disks
-+ Remove all the relevant snapshots
-+ Remove all the storage account
+# Deploy based on your needs
+
+| Don't have an AKS cluster | Already have an AKS cluster     | Have nothing                    |
+|---------------------------|---------------------------------|---------------------------------|
+| Deploy AKS                | Deploy K10                      | Deploy AKS and K10              |
+| ``` ./eks-deploy.sh ```   | ``` ./k10-deploy.sh ```         | ``` ./deploy.sh ```             |
+| 1.Create an AKS Cluster   |                                 | 1.Create an AKS Cluster         |
+|                           | 1.Install Kasten K10            | 2.Install Kasten K10            |
+|                           | 2.Deploy a MySQL database       | 3.Deploy a MySQL database       |
+|                           | 3.Create an Azure Blob location | 4.Create an Azure Blob location |
+|                           | 4.Create a backup policy        | 5.Create a backup policy        |
+|                           | 5.Kick off on-demand backup job | 6.Kick off on-demand backup job |
+
+# Destroy based on your needs
+
+| Destroy AKS               | Destroy K10                         | Destroy AKS and K10                 |
+|---------------------------|-------------------------------------|-------------------------------------|
+| ``` ./eks-destroy.sh ```  | ``` ./k10-destroy.sh ```            | ``` ./destroy.sh ```                |
+| 1.Remove the AKS Cluster  |                                     | 1.Remove the Resource Group         |
+|                           | 1.Remove MySQL database             | + Remove AKS Kubernetes Cluster     |
+|                           | 2.Remove Kasten K10                 | + Remove the disks and snapshots    |
+|                           | 3.Remove Azure Blob storage bucket  | + Remove the storage account etc.   |
 
 # To kickoff a backup job manually, run 
 ````
