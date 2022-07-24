@@ -45,7 +45,7 @@ vi setenv.sh
 
 | Destroy AKS only          | Destroy K10 only                    | Destroy AKS and K10                 |
 |---------------------------|-------------------------------------|-------------------------------------|
-| ``` ./eks-destroy.sh ```  | ``` ./k10-destroy.sh ```            | ``` ./destroy.sh ```                |
+| ``` ./aks-destroy.sh ```  | ``` ./k10-destroy.sh ```            | ``` ./destroy.sh ```                |
 | 1.Remove the AKS Cluster  |                                     | 1.Remove the Resource Group         |
 |                           | 1.Remove MySQL database             | + Remove AKS Kubernetes Cluster     |
 |                           | 2.Remove Kasten K10                 | + Remove the disks and snapshots    |
