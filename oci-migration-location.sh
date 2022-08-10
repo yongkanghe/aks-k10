@@ -2,11 +2,11 @@ echo '-------Creating a S3 profile secret'
 . ./setenv.sh
 
 if [ ! -f ociaccess ]; then
-  echo -n "Enter your AWS Access Key ID and press [ENTER]: "
+  echo -n "Enter your Object Storage Access Key ID and press [ENTER]: "
   read AWS_ACCESS_KEY_ID
   echo "" | awk '{print $1}'
   echo $AWS_ACCESS_KEY_ID > ociaccess
-  echo -n "Enter your AWS Secret Access Key and press [ENTER]: "
+  echo -n "Enter your Object Storage Secret Access Key and press [ENTER]: "
   read AWS_SECRET_ACCESS_KEY
   echo $AWS_SECRET_ACCESS_KEY >> ociaccess
 fi
@@ -15,8 +15,7 @@ export OCI_MY_REGION=ap-mumbai-1
 export OCI_MY_OBJECT_STORAGE_PROFILE=oci-migration
 export AWS_ACCESS_KEY_ID=$(cat ociaccess | head -1)
 export AWS_SECRET_ACCESS_KEY=$(cat ociaccess | tail -1)
-LAST4=$(echo -n $(cat ociaccess) | tail -c4)
-echo oci-k10migration4yong1-$LAST4$(date +%m%d) | awk '{print tolower($0)}' > k10_migration_bucketname
+echo oci-k10migration4yong1-$(date +%m%d) | awk '{print tolower($0)}' > k10_migration_bucketname
 
 #echo '-------Creating a S3 profile secret'
 kubectl create secret generic k10-oci-s3-secret \
