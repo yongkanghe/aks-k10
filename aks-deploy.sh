@@ -2,7 +2,7 @@ echo '-------Creating an AKS Cluster only (~5 mins)'
 starttime=$(date +%s)
 . ./setenv.sh
 az group create --name $MY_PREFIX-$MY_GROUP --location $MY_LOCATION
-AKS_K8S_VERSION=$(az aks get-versions --location $MY_LOCATION --output table | awk '{print $1}' | grep 1.21 | head -1)
+AKS_K8S_VERSION=$(az aks get-versions --location $MY_LOCATION --output table | awk '{print $1}' | grep 1.23 | head -1)
 az aks create \
   --resource-group $MY_PREFIX-$MY_GROUP \
   --name $MY_PREFIX-$MY_CLUSTER-$(date +%s) \
