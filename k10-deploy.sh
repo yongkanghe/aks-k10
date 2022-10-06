@@ -60,10 +60,21 @@ k10ui=http://$(kubectl get svc gateway-ext | awk '{print $4}'|grep -v EXTERNAL)/
 echo -e "\nHere is the URL to log into K10 Web UI" >> aks_token
 echo -e "\n$k10ui" >> aks_token
 echo "" | awk '{print $1}' >> aks_token
-sa_secret=$(kubectl get serviceaccount k10-k10 -o jsonpath="{.secrets[0].name}" --namespace kasten-io)
+
+cat <<EOF | kubectl apply -f -
+apiVersion: v1
+kind: Secret
+type: kubernetes.io/service-account-token
+metadata:
+  name: k10-k10-yong
+  annotations:
+    kubernetes.io/service-account.name: "k10-k10"
+EOF
+
+#sa_secret=$(kubectl get serviceaccount k10-k10 -o jsonpath="{.secrets[0].name}" --namespace kasten-io)
 echo "Here is the token to login K10 Web UI" >> aks_token
 echo "" | awk '{print $1}' >> aks_token
-kubectl get secret $sa_secret --namespace kasten-io -ojsonpath="{.data.token}{'\n'}" | base64 --decode | awk '{print $1}' >> aks_token
+kubectl get secret k10-k10-yong --namespace kasten-io -ojsonpath="{.data.token}{'\n'}" | base64 --decode | awk '{print $1}' >> aks_token
 echo "" | awk '{print $1}' >> aks_token
 
 echo '-------Waiting for K10 services are up running in about 3 mins more or less'
