@@ -1,5 +1,8 @@
 . ./setenv.sh
 
+echo '-------Create a Azure Blob Storage Container'
+az storage container create -n $MY_PREFIX-$MY_CONTAINER --account-key $(cat az_storage_key) --account-name $MY_PREFIX$AZURE_STORAGE_ACCOUNT_ID
+
 echo '-------Create a Azure Blob Storage profile secret'
 kubectl create secret generic k10-azure-secret \
       --namespace kasten-io \
