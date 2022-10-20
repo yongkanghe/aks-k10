@@ -16,6 +16,8 @@ export AWS_ACCESS_KEY_ID=$(cat awsaccess | head -1)
 export AWS_SECRET_ACCESS_KEY=$(cat awsaccess | tail -1)
 LAST4=$(echo -n $(cat awsaccess) | tail -c4)
 echo k10migration4yong1-$LAST4$(date +%m%d) | awk '{print tolower($0)}' > k10_migration_bucketname
+aws s3 mb s3://$(cat k10_migration_bucketname)
+
 export MY_OBJECT_STORAGE_PROFILE=myaws3-migration
 
 echo '-------Creating a S3 profile secret'
