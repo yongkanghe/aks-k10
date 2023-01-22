@@ -67,11 +67,11 @@ vi setenv.sh
 # AKS Backup and Restore
 https://blog.kasten.io/posts/backup-and-recovery-in-microsoft-azure-with-kasten-k10/
 
-# Kasten - No. 1 Kubernetes Backup
+# Kasten - No. 1 Self Managed Kubernetes Backup
 https://kasten.io 
 
-# Kasten - DevOps tool of the month July 2021
-http://k10.yongkang.cloud
+# CloudCasa - Best Kubernetes Backup as a Service
+https://cloudcasa.io 
 
 # Contributors
 
